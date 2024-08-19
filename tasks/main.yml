@@ -3,8 +3,6 @@
   package:
     name:
       - vim
-      - git
-      - fzf
     state: present
 
 - name: Create .vim/directories
