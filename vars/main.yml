@@ -1,8 +1,1 @@
 ---
-vim_plugins:
-#   - {
-#     name: pluginname,
-#     url: https://github.com/user/vim-plugin,
-#     dir: bundle
-#   }
-vim_themes:
