@@ -1,7 +1,7 @@
 vim
 ===========================================================================
 
-This is vim how I currently use it.
+Ansible role to install and configure vim.
 
 Requirements
 ===========================================================================
