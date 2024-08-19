@@ -1,0 +1,200 @@
+call plug#begin()
+Plug 'vim-scripts/indentpython.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'https://github.com/tpope/vim-surround.git'
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'dense-analysis/ale'
+Plug 'junegunn/fzf.vim'
+Plug 'voldikss/vim-floaterm'
+Plug 'vim-latex/vim-latex'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'fxn/vim-monochrome'
+Plug 'i3d/vim-jimbothemes'
+Plug 'rafi/awesome-vim-colorschemes'
+call plug#end()
+
+" -------
+" Airline
+" -------
+let g:airline_theme = 'biogoo'
+" {{{
+" Floaterm
+" }}}
+let g:floaterm_width = 0.5 
+let g:floaterm_height = 0.5 
+let g:floaterm_position = 'bottomright'
+
+set number
+set showcmd
+set bg=dark
+
+set termguicolors
+set t_Co=256
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+colorscheme mountaineer
+filetype indent on
+syntax on               " syntax highlighting
+set wildmenu
+set showmatch
+set incsearch
+set hlsearch
+" set nofoldenable
+set foldcolumn=5
+
+" {{{ 
+" -------------------------------------------------------------------------
+" configure expanding of tabs for various file types
+" -------------------------------------------------------------------------
+" }}}
+au BufRead,BufNewFile *.py set expandtab
+au BufRead,BufNewFile *.c set expandtab
+au BufRead,BufNewFile *.h set expandtab
+
+" {{{ 
+" configure editor with tabs and nice stuff...
+" }}}
+set expandtab           " enter spaces when tab is pressed
+set tabstop=8
+set softtabstop=4
+set shiftwidth=4        " number of spaces to use for auto indent
+set autoindent          " copy indent from current line when starting a new line
+
+" {{{ 
+" -------------------------------------------------------------------------
+" make backspaces more powerfull
+" -------------------------------------------------------------------------
+" }}}
+set backspace=indent,eol,start
+
+set ruler               " show line and column number
+set showcmd             " show (partial) command in status line
+
+" {{{ 
+" -------------------------------------------------------------------------
+" Indentation for Python, Perl, etc.
+" -------------------------------------------------------------------------
+" }}}
+autocmd BufNewFile,BufRead *.php,*.py,*.pl,*.c,*.sh set 
+            \ softtabstop=4 
+            \ shiftwidth=4 
+            \ expandtab 
+            \ autoindent
+au BufNewFile,BufRead *.js,*.html,*.css,*.yml,*yaml set 
+            \ softtabstop=2  
+            \ shiftwidth=2   
+            \ expandtab      
+            \ autoindent     
+au FileType yml,yaml setlocal indentkeys-=0#
+" Makefile 
+au FileType make set noexpandtab shiftwidth=8 softtabstop=0
+au BufNewFile,BufRead *.j2 set ft=cfg
+au BufNewFile,BufRead *.py set foldmethod=indent
+" {{{
+" -----
+" LaTex
+" -----
+" }}}
+au BufNewFile,BufRead *.tex set ft=tex
+            \ sw=2
+            \ iskeyword+=:
+
+filetype plugin on
+set shellslash
+set encoding=utf-8
+
+" ----
+" Tabs
+" ----
+" hi TabLineFill cterm=NONE ctermfg=Grey ctermbg=25
+" hi TabLine cterm=NONE ctermfg=Grey ctermbg=25
+" hi TabLineSel cterm=NONE ctermfg=White ctermbg=Black
+" {{{ 
+" ------------------------------------------------------------------------- 
+" Comments If fyletype vim set foldmethod=marker
+" ------------------------------------------------------------------------- 
+" }}}
+autocmd FileType vim setlocal foldmethod=marker
+" Toggle folding with space
+nnoremap <space> za
+" ------------------------------------------------------------------------- 
+" NERDTree Settings
+" ------------------------------------------------------------------------- 
+let NERDTreeShowLineNumbers=1
+" {{{
+" Do not show these files in NERDTree.
+" }}}
+" let NERDTreeIgnore = ['__pycache__', '*.pyc']
+" let g:NERDTreeWinSize=30
+" {{{ 
+" Mappings
+" Toggle NerdTree tabbed
+" }}}
+:map <C-N> :NERDTreeToggle<CR>
+:map <C-T> :tabe <CR>
+" {{{
+" general maps
+" }}}
+" jump tabs
+nnoremap <C-G> gt
+" jump buffers
+nnoremap <C-A> :bn <CR>
+nnoremap <C-Q> :q <CR>
+nnoremap <C-S> :w<CR>
+" {{{
+" FloaTerm keymaps
+" }}}
+nnoremap   <silent>   <F7>    :FloatermNew<CR>
+tnoremap   <silent>   <F7>    <C-\><C-n>:FloatermNew<CR>
+nnoremap   <silent>   <F8>    :FloatermPrev<CR>
+tnoremap   <silent>   <F8>    <C-\><C-n>:FloatermPrev<CR>
+nnoremap   <silent>   <F9>    :FloatermNext<CR>
+tnoremap   <silent>   <F9>    <C-\><C-n>:FloatermNext<CR>
+nnoremap   <silent>   <F12>   :FloatermToggle<CR>
+tnoremap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
+
+set modeline
+set modelines=5
+" ------------------------------------------------------------------------- 
+" ALE Settings https://github.com/dense-analysis/ale
+" ------------------------------------------------------------------------- 
+"  see also :h ale-options
+"  Disable ALE on startup
+let g:ale_enabled = 0
+"  Toggle ALE
+nnoremap    <silent>    <F1>    :ALEToggle<CR>
+" python linting: python -m pip install pylint
+" let g:ale_linters={
+" \ 'python': ['pylint'],
+" \}
+" Preview window
+set previewpopup=height:10,width:60
+" Colors
+hi signcolumn ctermbg=black
+hi clear ALEErrorSign
+hi ALEErrorSign cterm=None ctermfg=red
+hi ALEError ctermfg=red
+hi ALEErrorLine ctermfg=red
+hi clear ALEWarningSign
+hi ALEWarningSign cterm=None ctermfg=5
+hi ALEWarning ctermfg=magenta
+hi ALEWarningLine ctermfg=magenta
+hi ALEInfo ctermfg=lightblue
+hi ALEInfoLine ctermfg=lightblue
+let g:ale_close_preview_on_insert = 1
+let g:ale_sign_error = '●'
+let g:ale_sign_warning = '!'
+let g:ale_completion_enabled = 1
+let g:ale_set_ballons = 1
+" Don't show that annoying text inside the code while working
+" let g:ale_virtualtext_cursor = 0
+" let g:ale_set_highlights = 0
+"
+set textwidth=75        " break lines when line length increases
+set mouse=a
+set cursorline
+hi Folded ctermfg=darkgray ctermbg=black cterm=none guifg=#999999 guibg=#11151c
+au BufEnter * set fo-=c fo-=r fo-=o
