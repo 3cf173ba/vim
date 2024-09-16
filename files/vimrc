@@ -19,7 +19,7 @@ call plug#end()
 " -------
 " Airline
 " -------
-let g:airline_theme = 'biogoo'
+let g:airline_theme = 'ayu_dark'
 " {{{
 " Floaterm
 " }}}
