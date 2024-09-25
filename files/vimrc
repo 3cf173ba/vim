@@ -14,6 +14,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'fxn/vim-monochrome'
 Plug 'i3d/vim-jimbothemes'
 Plug 'rafi/awesome-vim-colorschemes'
+Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 " -------
@@ -193,10 +194,14 @@ let g:ale_set_ballons = 1
 " let g:ale_virtualtext_cursor = 0
 " let g:ale_set_highlights = 0
 "
-set textwidth=75        " break lines when line length increases
+set textwidth=80        " break lines when line length increases
 set mouse=a
 set cursorline
 hi Folded ctermfg=darkgray ctermbg=black cterm=none guifg=#999999 guibg=#11151c
 au BufEnter * set fo-=c fo-=r fo-=o "No comments on newline after comment!
 set cc=80                  " set an 80 column border for good coding style
+set guifont="UbuntuMono  Nerd Font":h11
 hi Comment guifg=#555555 " Make comments color lighter
+hi Search guibg=#00ff00 guifg=black
+hi CurSearch guibg=#99ff99 guifg=black
+hi MatchParen guibg=orange guifg=black
