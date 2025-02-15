@@ -31,3 +31,22 @@
     dest: "{{ vimrc }}"
     backup: true
     mode: 0640
+
+- name: Disable colorscheme
+  ansible.builtin.lineinfile:
+    path: "{{ vimrc }}"
+    regexp: '^(colorscheme.*)'
+    line: '" \1'
+    backrefs: true
+  changed_when: false
+
+- name: vim commands to install plugins
+  ansible.builtin.shell: vim -c "PlugInstall" -c "q" -c "q"
+  changed_when: false
+
+- name: Enable colorscheme
+  ansible.builtin.lineinfile:
+    path: "{{ vimrc }}"
+    regexp: ^" colorscheme {{ vim_colorscheme }}
+    line: colorscheme {{ vim_colorscheme }}
+  changed_when: false
