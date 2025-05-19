@@ -1,10 +1,12 @@
 call plug#begin()
 Plug 'vim-scripts/indentpython.vim'
+Plug 'nvie/vim-flake8'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'https://github.com/tpope/vim-surround.git'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'dense-analysis/ale'
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'voldikss/vim-floaterm'
 Plug 'vim-latex/vim-latex'
@@ -15,127 +17,58 @@ Plug 'fxn/vim-monochrome'
 Plug 'i3d/vim-jimbothemes'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'ryanoasis/vim-devicons'
+"""" MY PLUGIN
+Plug '~/.vim/plugged/vim-xai'
+"""" NOT USED
+" Plug 'vim-syntastic/syntastic'
+" Plug 'cocopon/iceberg.vim'
+" Plug 'gkeep/iceberg-dark'
+" Plug 'kaicataldo/material.vim'
 call plug#end()
 
-" -------
-" Airline
-" -------
-let g:airline_theme = 'ayu_dark'
-" {{{
-" Floaterm
-" }}}
-let g:floaterm_width = 0.5 
-let g:floaterm_height = 0.5 
-let g:floaterm_position = 'bottomright'
-
-set number
-set showcmd
-set bg=dark
-
-set termguicolors
-set t_Co=256
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-colorscheme mountaineer
-filetype indent on
-syntax on               " syntax highlighting
-set wildmenu
-set showmatch
-set incsearch
-set hlsearch
-" set nofoldenable
-set foldcolumn=5
-
-" {{{ 
-" -------------------------------------------------------------------------
-" configure expanding of tabs for various file types
-" -------------------------------------------------------------------------
-" }}}
-au BufRead,BufNewFile *.py set expandtab
-au BufRead,BufNewFile *.c set expandtab
-au BufRead,BufNewFile *.h set expandtab
-
-" {{{ 
-" configure editor with tabs and nice stuff...
-" }}}
-set expandtab           " enter spaces when tab is pressed
-set tabstop=8
-set softtabstop=4
-set shiftwidth=4        " number of spaces to use for auto indent
-set autoindent          " copy indent from current line when starting a new line
-
-" {{{ 
-" -------------------------------------------------------------------------
-" make backspaces more powerfull
-" -------------------------------------------------------------------------
-" }}}
-set backspace=indent,eol,start
-
-set ruler               " show line and column number
-set showcmd             " show (partial) command in status line
-
-" {{{ 
-" -------------------------------------------------------------------------
-" Indentation for Python, Perl, etc.
-" -------------------------------------------------------------------------
-" }}}
-autocmd BufNewFile,BufRead *.php,*.py,*.pl,*.c,*.sh set 
-            \ softtabstop=4 
-            \ shiftwidth=4 
-            \ expandtab 
-            \ autoindent
-au BufNewFile,BufRead *.js,*.html,*.css,*.yml,*yaml set 
-            \ softtabstop=2  
-            \ shiftwidth=2   
-            \ expandtab      
-            \ autoindent     
-au FileType yml,yaml setlocal indentkeys-=0#
-" Makefile 
-au FileType make set noexpandtab shiftwidth=8 softtabstop=0
-au BufNewFile,BufRead *.j2 set ft=cfg
-au BufNewFile,BufRead *.py set foldmethod=indent
-" {{{
-" -----
-" LaTex
-" -----
-" }}}
-au BufNewFile,BufRead *.tex set ft=tex
-            \ sw=2
-            \ iskeyword+=:
-
-filetype plugin on
-set shellslash
-set encoding=utf-8
-
-" ----
-" Tabs
-" ----
-" hi TabLineFill cterm=NONE ctermfg=Grey ctermbg=25
-" hi TabLine cterm=NONE ctermfg=Grey ctermbg=25
-" hi TabLineSel cterm=NONE ctermfg=White ctermbg=Black
-" {{{ 
-" ------------------------------------------------------------------------- 
-" Comments If fyletype vim set foldmethod=marker
-" ------------------------------------------------------------------------- 
-" }}}
-autocmd FileType vim setlocal foldmethod=marker
+" --------
+" Mappings
+" --------
+" press "c-b" to make POD text "bold"
+map <C-B> iB<<ESC>ea><ESC>
+" put braces aournd (word)
+" map <C-I> i(<ESC>ea)<ESC>
+" autocmd FileType vim setlocal foldmethod=marker
 " Toggle folding with space
 nnoremap <space> za
-" ------------------------------------------------------------------------- 
-" NERDTree Settings
-" ------------------------------------------------------------------------- 
-let NERDTreeShowLineNumbers=1
-" {{{
-" Do not show these files in NERDTree.
-" }}}
-" let NERDTreeIgnore = ['__pycache__', '*.pyc']
-" let g:NERDTreeWinSize=30
-" {{{ 
-" Mappings
-" Toggle NerdTree tabbed
-" }}}
+inoremap <C-K> <C-o>k
+inoremap <C-J> <C-o>j
+inoremap <C-L> <C-o>l
+inoremap <C-H> <C-o>h
+inoremap <C-W> <C-o>w
+inoremap <C-B> <C-o>b
 :map <C-N> :NERDTreeToggle<CR>
+":map <C-M> :FloatermToggle <CR>
 :map <C-T> :tabe <CR>
+" {{{
+" Altex: ~/.vim/plugin/altex.vim
+" Compile latex with ctrl-l 
+" and open pdf
+" 
+" Pandoc is easier:
+" Alpan: ~/.vim/plugin/altex.vim
+" }}}
+:map <C-L> :Alpan <CR>
+" {{{
+" Compile java program
+" and run it
+" :map <C-J> :Aljavac <CR>
+" :map <C-K> :Aljavac <CR>
+" Better with maps below
+" }}}
+nnoremap ccj :!javac % <CR>
+nnoremap ccm :!./convert % && man ./%:r.man <CR>
+nnoremap ccc :!make ./%:r && ./%:r <CR>
+nnoremap crj :!java %:r <CR>
+nnoremap cclear :silent !clear<CR>:redraw!<CR>
+nnoremap ctex :Altex <CR>
+nnoremap crpl :!clear;perl % <CR>
+nnoremap sv :source ~/.vimrc <CR>
 " {{{
 " general maps
 " }}}
@@ -143,7 +76,9 @@ let NERDTreeShowLineNumbers=1
 nnoremap <C-G> gt
 " jump buffers
 nnoremap <C-A> :bn <CR>
+" close
 nnoremap <C-Q> :q <CR>
+nnoremap cls :!ls -l<CR>
 nnoremap <C-S> :w<CR>
 " {{{
 " FloaTerm keymaps
@@ -156,21 +91,197 @@ nnoremap   <silent>   <F9>    :FloatermNext<CR>
 tnoremap   <silent>   <F9>    <C-\><C-n>:FloatermNext<CR>
 nnoremap   <silent>   <F12>   :FloatermToggle<CR>
 tnoremap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
+" Delete current lane and paste it under the line wer're now
+" (switch current and below line).
+nnoremap - ddp
+
+
+" -------
+" Airline
+" -------
+let g:airline_theme = 'atomic'
+"let g:airline_theme = 'ayu_mirage'
+" let g:airline_theme = 'light'
+let g:airline#extensions#tabline#enabled = 1
+" let g:airline_powerline_fonts = 1
+" let g:airline_theme = 'alduin'
+" {{{
+" Floaterm
+" }}}
+" let ayucolor="dark" 
+"
+let g:floaterm_width = 0.5
+let g:floaterm_height = 0.9
+let g:floaterm_position = 'bottomright'
+
+set number
+set showcmd
+" {{{ 
+"set smartindent
+"set cindent
+" }}}
+"silent! helptags ALL
+set background=dark
+" ------------------
+" needed for iceberg
+" ------------------
+"set background=light
+
+" needed for iceberg
+set termguicolors
+set t_Co=256
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" -----------------
+" Some colorschemes
+" -----------------
+" colors atom-dark-256
+" colors torte
+" colors industry
+" colors elflord
+" colors lunaperche
+" colors pablo
+" colors quiet
+" colors default
+" colors monochrome
+" colors orbital
+" colors alduin
+" colors darkmatrix
+" colors gotham
+" colors paramount
+" colors github
+colorscheme mountaineer
+filetype indent on
+set wildmenu
+set showmatch
+set incsearch
+set hlsearch
+" set nofoldenable
+set foldcolumn=5
+
+" {{{ 
+" --------------------------------------------------
+" configure expanding of tabs for various file types
+" --------------------------------------------------
+" }}}
+au BufRead,BufNewFile *.py set expandtab
+au BufRead,BufNewFile *.c set expandtab
+au BufRead,BufNewFile *.h set expandtab
+
+" {{{ 
+" --------------------------------------------------------------------------------
+" configure editor with tabs and nice stuff...
+" --------------------------------------------------------------------------------
+" }}}
+set expandtab           " enter spaces when tab is pressed
+set tabstop=8
+set softtabstop=4
+set shiftwidth=4        " number of spaces to use for auto indent
+set autoindent          " copy indent from current line when starting a new line
+
+" {{{ 
+" ------------------------------
+" make backspaces more powerfull
+" ------------------------------
+" }}}
+set backspace=indent,eol,start
+
+set ruler               " show line and column number
+syntax on               " syntax highlighting
+set showcmd             " show (partial) command in status line
+
+" {{{ 
+" ------------
+" Python, Perl
+" ------------
+" }}}
+autocmd BufNewFile,BufRead *.php,*.py,*.pl,*.c,*.sh set 
+            \ softtabstop=4 
+            \ shiftwidth=4 
+            \ expandtab 
+            \ autoindent
+
+au BufNewFile,BufRead *.js,*.html,*.css,*.yml,*yaml set 
+            \ softtabstop=2  
+            \ shiftwidth=2   
+            \ expandtab      
+            \ autoindent     
+
+au FileType yml,yaml setlocal indentkeys-=0#
+
+""""" Makefile """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+au FileType make setlocal noexpandtab shiftwidth=0 softtabstop=0
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+au BufNewFile,BufRead *.j2 set ft=cfg
+
+" {{{
+" -----
+" LaTex
+" -----
+" }}}
+au BufNewFile,BufRead *.tex set ft=tex
+            \ sw=2
+            \ iskeyword+=:
+
+au BufNewFile,BufRead *.py set foldmethod=indent
+filetype plugin on
+set shellslash
+set encoding=utf-8
+
+au FileType make set noexpandtab shiftwidth=8 softtabstop=0
+" ----
+" Tabs
+" ----
+" hi TabLineFill cterm=NONE ctermfg=Grey ctermbg=25
+" hi TabLine cterm=NONE ctermfg=Grey ctermbg=25
+" hi TabLineSel cterm=NONE ctermfg=White ctermbg=Black
+" {{{ 
+" ------------------------------------------------------------------------- 
+" Abbreviations
+" ------------------------------------------------------------------------- 
+" }}}
+abb #i #include
+
+" {{{
+" autocmd Filetype javascript setlocal foldmethod=indent
+" }}}
+abb ansbu ansible.builtin
+abb ansibu ansible.builtin
+abb #b /********************************************************
+abb #e ********************************************************/
+abb %%%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+" ------------ NERDTree Settings ------------------------------------------- 
+let NERDTreeShowLineNumbers=1
+" {{{
+" Do not show these files in NERDTree.
+" }}}
+let NERDTreeIgnore = ['__pycache__', '*.pyc']
+let g:NERDTreeWinSize=30
+" {{{ 
+" Mappings
+" Toggle NerdTree tabbed
+" }}}
+
+" ------------ NERDTree Settings END ---------------------------------------
+command EW gpg -e -c % %.gpg
 
 set modeline
 set modelines=5
-" ------------------------------------------------------------------------- 
+" --------------------------------------------------
 " ALE Settings https://github.com/dense-analysis/ale
-" ------------------------------------------------------------------------- 
+" --------------------------------------------------
 "  see also :h ale-options
 "  Disable ALE on startup
 let g:ale_enabled = 0
 "  Toggle ALE
 nnoremap    <silent>    <F1>    :ALEToggle<CR>
+
 " python linting: python -m pip install pylint
-" let g:ale_linters={
-" \ 'python': ['pylint'],
-" \}
+let g:ale_linters={
+\ 'python': ['pylint'],
+\ 'c': ['clang', 'gcc'],
+\}
 " Preview window
 set previewpopup=height:10,width:60
 " Colors
@@ -195,13 +306,98 @@ let g:ale_set_ballons = 1
 " let g:ale_set_highlights = 0
 "
 set textwidth=80        " break lines when line length increases
+set linebreak
+set wrap
+autocmd FileType text setlocal textwidth=80
+" -----
+" Mouse
+" -----
 set mouse=a
+" set ttymouse=xterm
+" ----------
+" Highlights
+" ----------
+" ------------------------------------------------------------------------- 
+" Search higlighting
+" ------------------------------------------------------------------------- 
+"""""""""" hi Search cterm=none ctermbg=darkgray ctermfg=lightgrey guifg=#000000 guibg=#00ff00
+"""""""""" hi CurSearch cterm=none ctermbg=darkgray ctermfg=lightgrey guifg=#000000 guibg=#99ff99
+"""""""""" hi Visual cterm=none ctermbg=darkgrey ctermfg=lightgrey guifg=black guibg=#ffffff
+" ------------------------------------------------------------------------- 
+" StatusLine
+" ------------------------------------------------------------------------- 
+"  {{{
+" ctermbg:
+" 8 for dark
+" 6 for light
+" set laststatus=2
+" set statusline=%F%m%r%h%w%<\ %{&ff}\ %Y\ [0x\%02.2B]\ %=l/%L,%v\ %p%%
+" hi clear StatusLine
+" hi StatusLine ctermfg=15 ctermbg=2 cterm=NONE
+" }}}
+" hi VertSplit cterm=NONE ctermfg=0 ctermbg=0
+" set fillchars=
+" 
+" hi clear StatusLineNC
+" hi StatusLineNC cterm=NONE ctermfg=15 ctermbg=10
+" ------------------------------------------------------------------------------
+" TabLine
+" ------------------------------------------------------------------------------
+" hi clear TabLine
+" hi TabLine cterm=none ctermbg=darkgrey ctermfg=lightgrey guifg=black guibg=#b98000
+" " ------------------------------------------------------------------------------
+" " Cursor line
+" " ------------------------------------------------------------------------------
+" "syntax off
 set cursorline
-hi Folded ctermfg=darkgray ctermbg=black cterm=none guifg=#999999 guibg=#11151c
-au BufEnter * set fo-=c fo-=r fo-=o "No comments on newline after comment!
+""""""""""""hi CursorLineNr guifg=#99ff99
+""""""""""""hi LineNr guifg=#555555
+" set cursorlineopt=number
+" hi clear CursorLineNr
+" hi CursorLineNr cterm=None ctermfg=grey ctermbg=black guifg=#777777 guibg=#000000
+" hi LineNr cterm=None ctermfg=darkgrey ctermbg=black guifg=#444444 guibg=#000000
+" hi CursorLineFold cterm=None ctermfg=darkgrey ctermbg=black guifg=#333333 guibg=#000000
+" " for colorscheme default and syntax highlighting off, set the line nr to
+" " something not annoying
+" " ------------------------------------------------------------------------- 
+" " Highlight folding
+" " ------------------------------------------------------------------------- 
+"""""hi Folded ctermfg=darkgray ctermbg=black cterm=none guifg=#999999 guibg=#11151c
+" hi FoldColumn cterm=none ctermfg=darkgray ctermbg=black guifg=#555555 guibg=#000000
+" hi VertSplit term=reverse cterm=None ctermfg=darkgray ctermbg=black gui=reverse guifg=#555555 guibg=#000000
+" " -------------------------------------------------------------------------
+" " Highlight Visual
+" " -------------------------------------------------------------------------
+" " hi Visual cterm=None ctermfg=black ctermbg=yellow guifg=black guibg=#999900
+" let g:NERDTreeNodeDelimiter = "\u00a0"
+" " -------------------------------------------------------------------------
+" " Highlight auto completion
+" " -------------------------------------------------------------------------
+" hi Pmenu cterm=None ctermfg=darkgrey ctermfg=lightgray guifg=#999999 guibg=#111111
+" hi PmenuSel cterm=None ctermfg=black ctermfg=lightgray guifg=magenta guibg=#000000
+" " ------------------------------------------------------------------------------
+" " Highlight those tildes ~ black
+" " ------------------------------------------------------------------------------
+" hi EndOfBuffer cterm=None ctermfg=black ctermfg=black guifg=#000000 guibg=#000000
+
+" No comments on newline after comment!
+" au BufEnter * set fo-=c fo-=r fo-=o
 set cc=80                  " set an 80 column border for good coding style
 set guifont="UbuntuMono  Nerd Font":h11
-hi Comment guifg=#555555 " Make comments color lighter
+
+hi Comment guifg=#555555 "Make comments color lighter
 hi Search guibg=#00ff00 guifg=black
 hi CurSearch guibg=#99ff99 guifg=black
 hi MatchParen guibg=orange guifg=black
+hi ColorColumn guifg=#555555 guibg=#222222
+hi Grey guifg=#555555
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                JUST SOME FUN                                                 "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+se foldmethod=manual
+autocmd BufRead * normal zR
+
+set formatoptions+=cro
